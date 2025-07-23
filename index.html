@@ -59,7 +59,7 @@
         <div class="star"></div>
     </div>
     </div>`
-        body.addEventListener('wheel',(e)=>{
+        body.addEventListener('wheel'||'scroll',(e)=>{
                     let star = document.querySelectorAll('.star');
 
             if(e.deltaY > 0){
