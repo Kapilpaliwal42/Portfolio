@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="output.css">
+
+</head>
+<body onresize="fill_screen()" >
+
+    <div  class="background">
+
+    </div>
+
+    <div class="main">
+        <h1>Hey, my name is Kapil and I am a web developer!</h1>
+        <p>Welcome to my portfolio. Here you'll find a collection of my projects and a bit about my journey in web development.</p>
+        <div class="portfolio-section flex flex-col items-center justify-center">
+            <h2 class="text-4xl text-wrap text-amber-50" >Project One: Weather app </h2>
+            <p class="text-white text-2xl" >This project showcases a weather application built with React and OpenWeatherMap API. It allows users to search for current weather conditions in any city.</p>
+            <div class="placeholder-image"><img class="rounded-2xl hover:touch-pinch-zoom " src="./media/image.png" alt="preview of weather app"></div>
+            <a href="https://kapilpaliwal42.github.io/weeather-web/wheather/"><button class="bg-amber-500 w-xs h-7 hover:bg-amber-600 text-white font-bold mt-2 m-3 px-4 rounded cursor-auto" >View Project</button></a>
+        </div>
+        <div class="portfolio-section flex flex-col items-center justify-center">
+            <h2 class="text-4xl text-wrap text-amber-50">Project Two: Todo List</h2>
+            <p class="text-white text-2xl">This project showcases a simple yet effective todo list application built with MERN Stack</p>
+            <div class="placeholder-image"><img class="rounded-2xl hover:touch-pinch-zoom " src="./media/Todo.png" alt="preview of todo list app"></div>
+            <a href="https://todoapp-frontend-oq3j.onrender.com/"><button class="bg-amber-500 w-xs h-7 hover:bg-amber-600 text-white font-bold mt-2 m-3 px-4 rounded cursor-auto" >View Project</button></a>
+        </div>
+        <div class="portfolio-section flex flex-col items-center justify-center">
+            <h2 class="text-4xl text-wrap text-amber-50">Contact Me</h2>
+            <p class="text-white text-2xl">Feel free to reach out for collaborations or inquiries. You can connect with me via </p>
+            <div class="social-links flex justify-center items-center mt-4">
+                <a href="mailto:paliwalkapil371@gmail.com" class="text-amber-500 hover:underline">Email</a>
+                <span class="mx-2">|</span>
+                <a href="www.linkedin.com/in/kapil-paliwal-3071082b0" class="text-amber-500 hover:underline">LinkedIn</a>
+                <span class="mx-2">|</span>
+                <a href="https://github.com/Kapilpaliwal42" class="text-amber-500 hover:underline">GitHub</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="cursor" ></div>
+    
+    
+    <script>
+        let background = document.querySelector(".background");
+        let stars = document.getElementsByClassName('container');
+        let body = document.querySelector('body');
+        let degree = 0;
+        let obj=`<div class="still-cont">
+    <div class="container">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+    </div>`
+        body.addEventListener('wheel',(e)=>{
+                    let star = document.querySelectorAll('.star');
+
+            if(e.deltaY > 0){
+                background.style.backgroundColor = "rgba(255, 0, 0, 0.518)";
+                degree += 10;
+                degree = degree % 360; 
+                
+                for(let i = 0; i < stars.length; i++){
+                    stars[i].style.transform = `rotate(${degree}deg)`;
+                    star.forEach(s => s.style.transform = `rotate(${-degree}deg)`);
+
+                }
+
+            } else {
+                background.style.backgroundColor = "rgba(0, 0, 255, 0.518)";
+                degree -= 10;
+                degree = degree % 360; 
+                for(let i = 0; i < stars.length; i++){
+                    stars[i].style.transform = `rotate(${degree}deg)`;
+                    star.forEach(s => s.style.transform = `rotate(${-degree}deg)`);
+
+                }
+            }
+
+            
+        })
+
+       
+        function fill_screen() {
+            background.innerHTML = "";
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            background.style.gridTemplateColumns = `repeat(auto-fill, minmax(200px, 1fr))`;
+            
+            if(width<=400){
+                width=800
+                height=800
+            }
+
+           let count = Math.floor(width * height / 4000);
+           while(count--){
+            background.innerHTML += obj
+           }
+           
+        }
+
+        fill_screen();
+
+        body.addEventListener('mousemove', (e) => {
+            let cursor = document.querySelector('.cursor');
+            setTimeout(() => {
+                cursor.style.display = 'flex';
+                cursor.style.left = (e.pageX - 25) + 'px';
+                cursor.style.top = (e.pageY - 25) + 'px';
+            }, 300);
+            
+        });
+
+    </script>
+</body>
+</html>
