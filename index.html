@@ -60,34 +60,46 @@
     </div>
     </div>`
 
-        body.addEventListener('wheel' || 'scroll',(e)=>{
-                    let star = document.querySelectorAll('.star');
+        body.addEventListener('wheel', (e) => {
+            handleScroll(e.deltaY);
+        });
 
-            if(e.deltaY > 0){
+        // Mobile swipe
+        let lastY = null;
+        body.addEventListener('touchstart', (e) => {
+            lastY = e.touches[0].clientY;
+        });
+        body.addEventListener('touchmove', (e) => {
+            if (lastY !== null) {
+                let deltaY = lastY - e.touches[0].clientY;
+                handleScroll(deltaY);
+                lastY = e.touches[0].clientY;
+            }
+        });
+        body.addEventListener('touchend', () => {
+            lastY = null;
+        });
+
+         function handleScroll(deltaY) {
+            let star = document.querySelectorAll('.star');
+            if (deltaY > 0) {
                 background.style.backgroundColor = "rgba(255, 0, 0, 0.518)";
                 degree += 10;
-                degree = degree % 360; 
-                
-                for(let i = 0; i < stars.length; i++){
+                degree = degree % 360;
+                for (let i = 0; i < stars.length; i++) {
                     stars[i].style.transform = `rotate(${degree}deg)`;
                     star.forEach(s => s.style.transform = `rotate(${-degree}deg)`);
-
                 }
-
             } else {
                 background.style.backgroundColor = "rgba(0, 0, 255, 0.518)";
                 degree -= 10;
-                degree = degree % 360; 
-                for(let i = 0; i < stars.length; i++){
+                degree = degree % 360;
+                for (let i = 0; i < stars.length; i++) {
                     stars[i].style.transform = `rotate(${degree}deg)`;
                     star.forEach(s => s.style.transform = `rotate(${-degree}deg)`);
-
                 }
             }
-
-            
-        })
-
+        }
        
         function fill_screen() {
             background.innerHTML = "";
