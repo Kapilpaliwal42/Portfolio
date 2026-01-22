@@ -71,6 +71,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    animation-name: rotate;
+  animation-duration: 1ms; /* Firefox requires this to apply the animation */
+  animation-direction: alternate;
+  animation-timeline: scroll(block nearest);
     &::after{
         content: "";
         position: absolute;

@@ -3,134 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="output.css">
+    <title>Kapil | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --rotation: 0deg;
+            --bg-color: rgba(22, 45, 92, 0.9);
+        }
 
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent double scrollbars */
+            background: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* The Background Grid */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            background-color: var(--bg-color);
+            transition: background-color 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 1;
+        }
+
+        .still-cont {
+            height: 200px;
+            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Star Container - Rotated via JS */
+        .container {
+            height: 180px;
+            width: 180px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            place-items: center;
+            transform: rotate(var(--rotation));
+            will-change: transform;
+        }
+
+        .star {
+            width: 80px;
+            height: 80px;
+            background-color: #000;
+            clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+            /* Counter-rotation to keep stars upright */
+            transform: rotate(calc(var(--rotation) * -1));
+            will-change: transform;
+            position: relative;
+        }
+
+        .star::after {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        /* Main Content Overlay */
+        .main {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding: 40px 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .portfolio-section {
+            background: rgba(0, 0, 20, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 800px;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-section:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Smooth Custom Cursor */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            z-index: 9999;
+            pointer-events: none; /* Critical: clicks go through to buttons */
+            mix-blend-mode: difference;
+            will-change: transform;
+            display: none;
+        }
+
+        button {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
-<body onresize="fill_screen()" >
+<body>
 
-    <div  class="background">
+    <div class="background" id="bg-grid"></div>
 
-    </div>
+    <div class="main" id="scroll-area">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-6xl font-bold mb-6 bg-black inline-block p-4 rounded-xl">Hi, I'm Kapil!</h1>
+            <p class="text-xl mb-12">Full Stack Web Developer , Backend Developer & Designer</p>
 
-    <div class="main">
-        <h1>Hey, my name is Kapil and I am a web developer!</h1>
-        <p>Welcome to my portfolio. Here you'll find a collection of my projects and a bit about my journey in web development.</p>
-        <div class="portfolio-section flex flex-col items-center justify-center">
-            <h2 class="text-4xl text-wrap text-amber-50" >Project One: Weather app </h2>
-            <p class="text-white text-2xl" >This project showcases a weather application built with React and OpenWeatherMap API. It allows users to search for current weather conditions in any city.</p>
-            <div class="placeholder-image"><img class="rounded-2xl hover:touch-pinch-zoom " src="./media/image.png" alt="preview of weather app"></div>
-            <a href="https://kapilpaliwal42.github.io/weeather-web/wheather/"><button class="bg-amber-500 w-xs h-7 hover:bg-amber-600 text-white font-bold mt-2 m-3 px-4 rounded cursor-auto" >View Project</button></a>
-        </div>
-        <div class="portfolio-section flex flex-col items-center justify-center">
-            <h2 class="text-4xl text-wrap text-amber-50">Project Two: Todo List</h2>
-            <p class="text-white text-2xl">This project showcases a simple yet effective todo list application built with MERN Stack</p>
-            <div class="placeholder-image"><img class="rounded-2xl hover:touch-pinch-zoom " src="./media/Todo.png" alt="preview of todo list app"></div>
-            <a href="https://todoapp-frontend-oq3j.onrender.com/"><button class="bg-amber-500 w-xs h-7 hover:bg-amber-600 text-white font-bold mt-2 m-3 px-4 rounded cursor-auto" >View Project</button></a>
-        </div>
-        <div class="portfolio-section flex flex-col items-center justify-center">
-            <h2 class="text-4xl text-wrap text-amber-50">Contact Me</h2>
-            <p class="text-white text-2xl">Feel free to reach out for collaborations or inquiries. You can connect with me via </p>
-            <div class="social-links flex justify-center items-center mt-4">
-                <a href="mailto:paliwalkapil371@gmail.com" class="text-amber-500 hover:underline">Email</a>
-                <span class="mx-2">|</span>
-                <a href="https://www.linkedin.com/in/kapil-paliwal-3071082b0" class="text-amber-500 hover:underline">LinkedIn</a>
-                <span class="mx-2">|</span>
-                <a href="https://github.com/Kapilpaliwal42" class="text-amber-500 hover:underline">GitHub</a>
+            <div class="portfolio-section">
+                <h2 class="text-3xl text-amber-500 mb-4">Harmonize</h2>
+                <p class="mb-6">An open source music streaming platform built with React and Node.js. content is managed by the user and cloudinary is used for asset storage.</p>
+                <img class="rounded-xl mx-auto mb-6 w-full max-w-md" src="./media/harmonize.png" alt="Weather App">
+                <a href="https://harmonize-pxwk.onrender.com/" target="_blank">
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-bold">View Project</button>
+                </a>
+            </div>
+            <div class="portfolio-section">
+                <h2 class="text-3xl text-amber-500 mb-4">Weather App</h2>
+                <p class="mb-6">Built with React and OpenWeatherMap API. Real-time data fetching with a sleek UI.</p>
+                <img class="rounded-xl mx-auto mb-6 w-full max-w-md" src="./media/image.png" alt="Weather App">
+                <a href="https://kapilpaliwal42.github.io/weeather-web/wheather/" target="_blank">
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-bold">View Project</button>
+                </a>
+            </div>
+
+            <div class="portfolio-section">
+                <h2 class="text-3xl text-amber-500 mb-4">Todo List</h2>
+                <p class="mb-6">A MERN stack application featuring user authentication and persistent storage.</p>
+                <img class="rounded-xl mx-auto mb-6 w-full max-w-md" src="./media/Todo.png" alt="Todo App">
+                <a href="https://todoapp-frontend-oq3j.onrender.com/" target="_blank">
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-bold">View Project</button>
+                </a>
+            </div>
+
+            <div class="portfolio-section">
+                <h2 class="text-3xl text-amber-500 mb-4">Connect With Me</h2>
+                <div class="flex justify-center gap-6 text-xl">
+                    <a href="mailto:paliwalkapil371@gmail.com" class="hover:text-amber-500 transition">Email</a>
+                    <span>|</span>
+                    <a href="https://www.linkedin.com/in/kapil-paliwal-3071082b0" class="hover:text-amber-500 transition">LinkedIn</a>
+                    <span>|</span>
+                    <a href="https://github.com/Kapilpaliwal42" class="hover:text-amber-500 transition">GitHub</a>
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="cursor" id="custom-cursor"></div>
 
-    <div class="cursor" ></div>
-    
-    
     <script>
-        let background = document.querySelector(".background");
-        let stars = document.getElementsByClassName('container');
-        let body = document.querySelector('body');
-        let degree = 0;
-        let obj=`<div class="still-cont">
-    <div class="container">
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-    </div>
-    </div>`
+        const bgGrid = document.getElementById('bg-grid');
+        const scrollArea = document.getElementById('scroll-area');
+        const cursor = document.getElementById('custom-cursor');
+        
+        // Animation Variables
+        let currentRotation = 0;
+        let targetRotation = 0;
+        let cursorX = 0, cursorY = 0;
+        let targetX = 0, targetY = 0;
 
-        body.addEventListener('wheel', (e) => {
-            handleScroll(e.deltaY);
-        });
-
-        // Mobile swipe
-        let lastY = null;
-        body.addEventListener('touchstart', (e) => {
-            lastY = e.touches[0].clientY;
-        });
-        body.addEventListener('touchmove', (e) => {
-            if (lastY !== null) {
-                let deltaY = lastY - e.touches[0].clientY;
-                handleScroll(deltaY);
-                lastY = e.touches[0].clientY;
+        // 1. Generate Stars
+        function initStars() {
+            bgGrid.innerHTML = "";
+            const count = Math.ceil((window.innerWidth * window.innerHeight) / 40000);
+            for(let i = 0; i < count; i++) {
+                const div = document.createElement('div');
+                div.className = 'still-cont';
+                div.innerHTML = `<div class="container"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>`;
+                bgGrid.appendChild(div);
             }
-        });
-        body.addEventListener('touchend', () => {
-            lastY = null;
-        });
+        }
 
-         function handleScroll(deltaY) {
-            let star = document.querySelectorAll('.star');
-            if (deltaY > 0) {
-                background.style.backgroundColor = "rgba(255, 0, 0, 0.518)";
-                degree += 10;
-                degree = degree % 360;
-                for (let i = 0; i < stars.length; i++) {
-                    stars[i].style.transform = `rotate(${degree}deg)`;
-                    star.forEach(s => s.style.transform = `rotate(${-degree}deg)`);
-                }
+        // 2. The Smooth Loop (RequestAnimationFrame)
+        function animate() {
+            // Smooth Rotation (Lerp)
+            currentRotation += (targetRotation - currentRotation) * 0.07;
+            document.documentElement.style.setProperty('--rotation', `${currentRotation}deg`);
+
+            // Smooth Cursor (Lerp)
+            cursorX += (targetX - cursorX) * 0.15;
+            cursorY += (targetY - cursorY) * 0.15;
+            cursor.style.transform = `translate3d(${cursorX - 25}px, ${cursorY - 25}px, 0) rotate(${currentRotation * 2}deg)`;
+
+            requestAnimationFrame(animate);
+        }
+
+        // 3. Event Listeners
+        scrollArea.addEventListener('scroll', () => {
+            const scrolled = scrollArea.scrollTop;
+            targetRotation = scrolled * 0.15; // Drives star rotation
+
+            // Change background color smoothly based on scroll
+            if (scrolled > 300) {
+                document.documentElement.style.setProperty('--bg-color', 'rgba(92, 22, 22, 0.9)');
             } else {
-                background.style.backgroundColor = "rgba(0, 0, 255, 0.518)";
-                degree -= 10;
-                degree = degree % 360;
-                for (let i = 0; i < stars.length; i++) {
-                    stars[i].style.transform = `rotate(${degree}deg)`;
-                    star.forEach(s => s.style.transform = `rotate(${-degree}deg)`);
-                }
+                document.documentElement.style.setProperty('--bg-color', 'rgba(22, 45, 92, 0.9)');
             }
-        }
-       
-        function fill_screen() {
-            background.innerHTML = "";
-            let width = window.innerWidth;
-            let height = window.innerHeight;
-            background.style.gridTemplateColumns = `repeat(auto-fill, minmax(200px, 1fr))`;
-            
-            if(width<=400){
-                width=800
-                height=800
-            }
-
-           let count = Math.floor(width * height / 4000);
-           while(count--){
-            background.innerHTML += obj
-           }
-           
-        }
-
-        fill_screen();
-
-        body.addEventListener('mousemove', (e) => {
-            let cursor = document.querySelector('.cursor');
-            setTimeout(() => {
-                cursor.style.display = 'flex';
-                cursor.style.left = (e.pageX - 25) + 'px';
-                cursor.style.top = (e.pageY - 25) + 'px';
-            }, 300);
-            
         });
 
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.display = 'block';
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
+
+        window.addEventListener('resize', initStars);
+
+        // Start
+        initStars();
+        requestAnimationFrame(animate);
     </script>
 </body>
 </html>
